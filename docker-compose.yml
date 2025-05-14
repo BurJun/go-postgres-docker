@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  go-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=dev
+      - DB_PASSWORD=dev
+      - DB_NAME=appdb
+    depends_on:
+      - postgres
+    command: go run main.go
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432"
